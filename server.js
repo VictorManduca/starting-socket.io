@@ -11,24 +11,23 @@ app.set('views', path.join(__dirname, 'public'));
 app.engine('html', require('ejs').renderFile);
 app.set('views engine', 'html');
 
-
 app.use('/', (req, res) => {
-    res.render('index.html');
+	res.render('index.html');
 });
 
 let messages = [];
 
 io.on('connection', socket => {
-    console.info(`Socket connected ${ socket.id }`);
+	console.info(`Socket connected ${socket.id}`);
 
-    socket.emit('previousMessages', messages)
+	socket.emit('previousMessages', messages)
 
-    socket.on('sendMessage', data => {
-        messages.push(data);
-        socket.broadcast.emit('receivedMessage', data);
-    })
+	socket.on('sendMessage', data => {
+		messages.push(data);
+		socket.broadcast.emit('receivedMessage', data);
+	})
 });
 
 server.listen(3000, _ => {
-    console.info('Application running on port 3000');
+	console.info('Application running on port 3000');
 })
